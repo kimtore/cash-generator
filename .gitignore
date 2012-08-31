@@ -1,0 +1,7 @@
+*.pyc
+.*.sw*
+local_settings.py
+requirements
+deps
+deploy
+static

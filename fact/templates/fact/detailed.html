@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block main %}
+    <h2>Kunde</h2>
+    <div class="customer">
+        <div class="name">{{ customer.name }}</div>
+        <div>{{ customer.addr_addr1 }}</div>
+        <div>{{ customer.addr_addr2 }}</div>
+        <div>{{ customer.addr_addr3 }}</div>
+        <div>{{ customer.addr_addr4 }}</div>
+    </div>
+
+    <h2>Ordrelinjer</h2>
+
+    {% if job %}
+        <h3>Prosjekt: {{ job.name }}</h3>
+    {% endif %}
+
+    <table>
+        <tr>
+            <th>Beskrivelse</th>
+            <th>Antall</th>
+            <th>Type</th>
+            <th>Stykkpris</th>
+            <th>MVA</th>
+            <th>Netto</th>
+        </tr>
+        {% for line in invoice.entries %}
+            <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+                <td>{{ line.description }}</td>
+                <td>{{ line.quantity|floatformat:2|intcomma }}</td>
+                <td>{{ line.action }}</td>
+                <td>{{ line.unitprice|floatformat:2|intcomma }}</td>
+                <td>{{ line.tax_percent }}%</td>
+                <td>{{ line.net|floatformat:2|intcomma }}</td>
+            </tr>
+        {% endfor %}
+        <tr class="sum">
+            <td colspan="5">Netto</td>
+            <td>{{ invoice.net|floatformat:2|intcomma }}</td>
+        </tr>
+        <tr class="sum">
+            <td colspan="5">MVA</td>
+            <td>{{ invoice.tax|floatformat:2|intcomma }}</td>
+        </tr>
+
+        {% if invoice.payments.count %}
+            <tr class="subtotal">
+                <td colspan="5">Subtotal</td>
+                <td>{{ invoice.gross|floatformat:2|intcomma }}</td>
+            </tr>
+            {% for payment in invoice.payments %}
+                <tr class="payment">
+                    <td colspan="5">Betalt {{ payment.date_posted|date:'d.m.Y' }}</td>
+                    <td>{{ payment.amount|floatformat:2|intcomma }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+
+        <tr class="total">
+            <td colspan="5">Å betale</td>
+            <td>{{ invoice.due|floatformat:2|intcomma }}</td>
+        </tr>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+/**
+ * Incendio facture
+ */
+
+body {
+    background: white;
+    font: 0.9em Helvetica,sans-serif;
+}
+
+a {
+    color: #EF4B23;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+header {
+    padding: 2em 3em;
+    background: #F8E4C9;
+    height: 90px;
+}
+
+header img {
+    float: left;
+}
+
+header h1 {
+    float: left;
+    margin: 66px 0 0 200px;
+}
+
+#main {
+    padding: 2em 3em;
+}
+
+table {
+    min-width: 60em;
+}
+
+table td, table th {
+    padding: 0.4em 2em 0.4em 0.8em;
+}
+
+table th {
+    border-bottom: 2px solid #EF4B23;
+    background: #FFF6E9;
+    text-align: left;
+}
+
+table tr.even td {
+    background: #FFF6E9;
+}
+
+table tr.odd td {
+    background: #F8E4C9;
+}
+
+table tr.sum td, table tr.subtotal td {
+    background: #E8E8E8;
+    border-top: 1px solid black;
+}
+
+table tr.subtotal td {
+    border-bottom: 2px solid black;
+}
+
+table tr.total td {
+    font-weight: bold;
+    background: white;
+    border-top: 1px solid black;
+    border-bottom: 3px double black;
+}
+
+table tr.payment td {
+    background: #FFF6E9;
+}
+
+table tr.paid td {
+    text-decoration: line-through;
+}
+
+.customer {
+    width: 30em;
+    padding: 1em;
+    background: #E8E8E8;
+}
+
+.customer .name {
+    font-weight: bold;
+    font-size: 1.1em;
+}
