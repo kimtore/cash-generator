@@ -1,0 +1,8 @@
+msgid "Project"
+msgstr "Prosjekt"
+
+msgid "Hours"
+msgstr "Timer"
+
+msgid "Material"
+msgstr "Varer"

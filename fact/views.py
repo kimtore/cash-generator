@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django.utils.translation import ugettext as _
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -98,7 +99,7 @@ def pdf(request, guid):
         invoice_entries.append([
             entry.description,
             intcomma(fmt.format(entry.quantity)),
-            entry.action,
+            _(entry.action),
             intcomma(fmt.format(entry.unitprice)),
             intcomma(fmt.format(entry.tax_percent)) + '%',
             intcomma(fmt.format(entry.net))
@@ -132,10 +133,8 @@ def pdf(request, guid):
 
     # Bank account number
     y = height-(units.cm*11)-h
-    #stylesheet=getSampleStyleSheet()
     pr = u'Beløpet betales til konto: ' + company['bank_account_number'] + '.'
     p.drawString(x, y, pr)
-    #pr.drawOn(p, x, y)
 
     # Footer stuff
     p.setFont(font + '-BoldOblique', 10)
