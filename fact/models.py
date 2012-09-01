@@ -4,6 +4,30 @@ from dateutil.relativedelta import relativedelta
 
 # Create your models here.
 
+class Slot(models.Model):
+
+    name = models.CharField(max_length=4096)
+    string_val = models.CharField(max_length=4096)
+
+    @staticmethod
+    def company():
+        return {
+                'id' : Slot.objects.get(name='options/Business/Company ID').string_val,
+                # Due to lack of this option in the GnuCash GUI, we need
+                # to hi-jack something else - Fax number is not very important.
+                'bank_account_number' : Slot.objects.get(name='options/Business/Company Fax Number').string_val,
+                'name' : Slot.objects.get(name='options/Business/Company Name').string_val,
+                'address' : Slot.objects.get(name='options/Business/Company Address').string_val,
+                'email' : Slot.objects.get(name='options/Business/Company Email Address').string_val,
+                'url' : Slot.objects.get(name='options/Business/Company Website URL').string_val,
+                'phone' : Slot.objects.get(name='options/Business/Company Phone Number').string_val,
+            }
+
+    class Meta:
+        managed = False
+        db_table = 'slots'
+
+
 class Transaction(models.Model):
 
     guid = models.CharField(primary_key=True, max_length=32)
@@ -230,7 +254,7 @@ class Invoice(models.Model):
     @property
     def paid(self):
         if self.date_posted is not None and self.due == 0:
-            return True
+            return sum(self.transactions) == 0
         return False
     
     class Meta:

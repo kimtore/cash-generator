@@ -53,7 +53,7 @@
             </tr>
             {% for payment in invoice.payments %}
                 <tr class="payment">
-                    <td colspan="5">Betalt {{ payment.date_posted|date:'d.m.Y' }}</td>
+                    <td colspan="5">Betalt {{ payment.post_date|date:'d.m.Y' }}</td>
                     <td>{{ payment.amount|floatformat:2|intcomma }}</td>
                 </tr>
             {% endfor %}
@@ -64,5 +64,9 @@
             <td>{{ invoice.due|floatformat:2|intcomma }}</td>
         </tr>
     </table>
+
+    <div class="buttons">
+        <a class="button" href="/faktura/pdf/{{ invoice.guid }}">Last ned PDF</a>
+    </div>
 
 {% endblock %}

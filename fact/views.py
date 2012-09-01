@@ -3,7 +3,8 @@
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.core.urlresolvers import reverse
 import django.contrib.auth.models
 import fact.models
 
@@ -17,10 +18,139 @@ def index(request):
 
 @login_required
 def detailed(request, guid):
-    invoice = fact.models.Invoice.objects.get(pk=guid)
+    invoice = get_object_or_404(fact.models.Invoice, pk=guid)
     return render_to_response('fact/detailed.html', {
             'title' : 'Faktura ' + invoice.id,
             'invoice' : invoice,
             'customer' : invoice.customer,
             'job' : invoice.job
         }, context_instance=RequestContext(request))
+
+def pdf(request, guid):
+    import settings
+    import reportlab.pdfgen.canvas
+    from reportlab.lib import pagesizes, units, colors, utils
+    from reportlab.platypus import Paragraph, Image
+    from reportlab.platypus.tables import Table, TableStyle
+    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+    from django.contrib.humanize.templatetags.humanize import intcomma
+
+    invoice = get_object_or_404(fact.models.Invoice, pk=guid)
+    if not invoice.date_posted or not invoice.date_due:
+        return redirect(reverse('fact.views.detailed', kwargs={'guid':guid}))
+
+    response = HttpResponse(mimetype='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=incendio-faktura-' + invoice.id + '.pdf'
+    p = reportlab.pdfgen.canvas.Canvas(response, pagesize=pagesizes.A4)
+    width, height = pagesizes.A4
+    font = 'Helvetica'
+
+    # Right-hand stuff
+    x = units.cm * 14;
+    p.setFont(font + '-Bold', 18)
+    p.drawString(x, height-(units.cm*4), 'Faktura ' + invoice.id)
+    p.setFont(font, 12)
+    p.drawString(x, height-(units.cm*5), 'Fakturadato: ' + invoice.date_posted.strftime('%d.%m.%Y'))
+    p.drawString(x, height-(units.cm*5.5), 'Betalingsfrist: ' + invoice.date_due.strftime('%d.%m.%Y'))
+
+    # Logo
+    img = utils.ImageReader(settings.FACT_LOGO)
+    iw, ih = img.getSize()
+    aspect = ih / float(iw)
+    img = Image(settings.FACT_LOGO, width=units.cm*4, height=units.cm*4*aspect)
+    img.drawOn(p, x+(units.cm*1), height-(units.cm*2.25))
+
+    # Left-hand header stuff
+    x = units.cm * 2;
+    p.setFont(font + '-Oblique', 10)
+    company = fact.models.Slot.company()
+    p.drawString(x, height-(units.cm*1.25), company['name'])
+    address = company['address'].split("\n")
+    base = 1.65
+    for a in address:
+        p.drawString(x, height-(units.cm*base), a)
+        base += 0.4
+
+
+    # Recipient name and address
+    customer = invoice.customer
+    p.setFont(font, 12)
+    p.drawString(x, height-(units.cm*4), customer.name)
+    p.drawString(x, height-(units.cm*4.65), customer.addr_addr1)
+    p.drawString(x, height-(units.cm*5.3), customer.addr_addr2)
+    p.drawString(x, height-(units.cm*5.95), customer.addr_addr3)
+    p.drawString(x, height-(units.cm*6.6), customer.addr_addr4)
+
+    # Main
+    p.setFont(font + '-Bold', 14)
+    p.drawString(x, height-(units.cm*8), 'Fakturaspesifikasjon')
+    p.setFont(font, 12)
+    fmt = '{0:.2f}'
+
+    # Get our invoice entries, headers, etc
+    style = TableStyle()
+    invoice_entries = []
+    headers = ['Beskrivelse', 'Antall', 'Type', 'Stykkpris', 'MVA', 'Netto']
+    style.add('FONT', (0,0), (-1,0), font + '-Bold')
+    style.add('LINEBELOW', (0,0), (-1,0), 1, colors.black)
+    for entry in invoice.entries:
+        invoice_entries.append([
+            entry.description,
+            intcomma(fmt.format(entry.quantity)),
+            entry.action,
+            intcomma(fmt.format(entry.unitprice)),
+            intcomma(fmt.format(entry.tax_percent)) + '%',
+            intcomma(fmt.format(entry.net))
+        ])
+    style.add('LINEBELOW', (0, len(invoice_entries)), (-1, len(invoice_entries)), 1, colors.black)
+    sums = []
+    sums.append(['Netto', '', '', '', '', intcomma(fmt.format(invoice.net))])
+    sums.append(['MVA', '', '', '', '', intcomma(fmt.format(invoice.tax))])
+    if invoice.payments.count() > 0:
+        sums.append(['Subtotal', '', '', '', '', intcomma(fmt.format(invoice.gross))])
+        style.add('LINEBELOW', (0, len(invoice_entries)+3), (-1, len(invoice_entries)+3), 1, colors.black)
+        for payment in invoice.payments.all():
+            sums.append(['Betalt ' + payment.post_date.strftime('%d.%m.%Y'), '', '', '', '', intcomma(fmt.format(payment.amount))])
+        ln = len(invoice_entries) + len(sums)
+        style.add('LINEBELOW', (0, ln), (-1, ln), 1, colors.black)
+    else:
+        style.add('LINEBELOW', (0, len(invoice_entries)+2), (-1, len(invoice_entries)+2), 1, colors.black)
+    sums.append([u'Å betale', '', '', '', '', intcomma(fmt.format(invoice.due))])
+    ln = len(invoice_entries) + len(sums)
+    style.add('BACKGROUND', (0, ln), (-1, ln), colors.wheat)
+    style.add('FONT', (0, ln), (-1, ln), font + '-Bold')
+    style.add('LINEBELOW', (0, ln), (-1, ln), 2, colors.black)
+
+    # Draw the table
+    t = Table([headers] + invoice_entries + sums,
+            ([units.cm*6.5, units.cm*1.75, units.cm*2, units.cm*2.5, units.cm*2, units.cm*2.25])
+            )
+    t.setStyle(style)
+    w, h = t.wrapOn(p, units.cm*19, units.cm*8)
+    t.drawOn(p, x, height-(units.cm*9)-h)
+
+    # Bank account number
+    y = height-(units.cm*11)-h
+    #stylesheet=getSampleStyleSheet()
+    pr = u'Beløpet betales til konto: ' + company['bank_account_number'] + '.'
+    p.drawString(x, y, pr)
+    #pr.drawOn(p, x, y)
+
+    # Footer stuff
+    p.setFont(font + '-BoldOblique', 10)
+    p.drawString(x, units.cm*3, company['name'])
+    p.setFont(font + '-Oblique', 10)
+    p.drawString(x, units.cm*2.5, address[0])
+    p.drawString(x, units.cm*2, address[1])
+
+    p.drawString(units.cm*8, units.cm*2.5, 'Web: ' + company['url'])
+    p.drawString(units.cm*8, units.cm*2, 'E-post: ' + company['email'])
+
+    p.drawString(units.cm*14, units.cm*2.5, 'Telefon: ' + company['phone'])
+    p.drawString(units.cm*14, units.cm*2, 'Org.nr: ' + company['id'])
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    return response

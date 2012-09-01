@@ -12,6 +12,7 @@
             <th>Netto</th>
             <th>Fakturadato</th>
             <th>Forfallsdato</th>
+            <th></th>
         </tr>
         {% for invoice in invoices %}
             <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} {% if invoice.paid %}paid{% endif %}">
@@ -22,6 +23,7 @@
                 <td>{{ invoice.net|floatformat:2|intcomma }}</td>
                 <td>{{ invoice.date_posted|date:"d.m.Y" }}</td>
                 <td>{{ invoice.date_due|date:"d.m.Y" }}</td>
+                <td>{% if invoice.date_posted %}<a href="/faktura/pdf/{{ invoice.guid }}">PDF</a>{% endif %}</td>
             </tr>
         {% endfor %}
     </table>

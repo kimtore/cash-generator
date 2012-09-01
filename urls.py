@@ -13,11 +13,10 @@ admin.autodiscover()
 
 urlpatterns = patterns("",
     ("^admin/", include(admin.site.urls)),
-    #url("^$", direct_to_template, {"template": "index.html"}, name="home"),
     ("^$", 'fact.views.index'),
     ("^faktura/?$", 'fact.views.index'),
     ("^faktura/(?P<guid>\w{32})/?$", 'fact.views.detailed'),
-    ("^", include("mezzanine.urls")),
+    ("^faktura/pdf/(?P<guid>\w{32})/?$", 'fact.views.pdf'),
 
 )
 
