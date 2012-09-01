@@ -26,6 +26,7 @@ def detailed(request, guid):
             'job' : invoice.job
         }, context_instance=RequestContext(request))
 
+@login_required
 def pdf(request, guid):
     import settings
     import reportlab.pdfgen.canvas
