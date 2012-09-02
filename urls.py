@@ -17,7 +17,7 @@ urlpatterns = patterns("",
     ("^faktura/?$", 'fact.views.index'),
     ("^faktura/(?P<guid>\w{32})/?$", 'fact.views.detailed'),
     ("^faktura/pdf/(?P<guid>\w{32})/?$", 'fact.views.pdf'),
-
+    ("^", include("mezzanine.urls")),
 )
 
 # Adds ``STATIC_URL`` to the context of error pages, so that error
