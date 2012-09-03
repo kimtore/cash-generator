@@ -50,10 +50,10 @@ def pdf(request, guid):
     # Right-hand stuff
     x = units.cm * 14;
     p.setFont(font + '-Bold', 18)
-    p.drawString(x, height-(units.cm*4), 'Faktura ' + invoice.id)
-    p.setFont(font, 12)
-    p.drawString(x, height-(units.cm*5), 'Fakturadato: ' + invoice.date_posted.strftime('%d.%m.%Y'))
-    p.drawString(x, height-(units.cm*5.5), 'Betalingsfrist: ' + invoice.date_due.strftime('%d.%m.%Y'))
+    p.drawString(x, height-(units.cm*4.5), 'Faktura ' + invoice.id)
+    p.setFont(font, 10)
+    p.drawString(x, height-(units.cm*5.5), 'Fakturadato: ' + invoice.date_posted.strftime('%d.%m.%Y'))
+    p.drawString(x, height-(units.cm*6), 'Betalingsfrist: ' + invoice.date_due.strftime('%d.%m.%Y'))
 
     # Logo
     img = utils.ImageReader(settings.FACT_LOGO)
@@ -64,7 +64,7 @@ def pdf(request, guid):
 
     # Left-hand header stuff
     x = units.cm * 2;
-    p.setFont(font + '-Oblique', 10)
+    p.setFont(font + '-Oblique', 8)
     company = fact.models.Slot.company()
     p.drawString(x, height-(units.cm*1.25), company['name'])
     address = company['address'].split("\n")
@@ -75,18 +75,22 @@ def pdf(request, guid):
 
 
     # Recipient name and address
+    y = units.cm*4.5
+    base = 0.5
     customer = invoice.customer
-    p.setFont(font, 12)
-    p.drawString(x, height-(units.cm*4), customer.name)
-    p.drawString(x, height-(units.cm*4.65), customer.addr_addr1)
-    p.drawString(x, height-(units.cm*5.3), customer.addr_addr2)
-    p.drawString(x, height-(units.cm*5.95), customer.addr_addr3)
-    p.drawString(x, height-(units.cm*6.6), customer.addr_addr4)
+    p.setFont(font, 10)
+    p.drawString(x, height-y, customer.name); y += units.cm*base
+    p.drawString(x, height-y, customer.addr_addr1); y += units.cm*base
+    p.drawString(x, height-y, customer.addr_addr2); y += units.cm*base
+    p.drawString(x, height-y, customer.addr_addr3); y += units.cm*base
+    p.drawString(x, height-y, customer.addr_addr4); y += units.cm*base
+    y += units.cm*2
 
     # Main
     p.setFont(font + '-Bold', 14)
-    p.drawString(x, height-(units.cm*8), 'Fakturaspesifikasjon')
-    p.setFont(font, 12)
+    p.drawString(x, height-y, 'Fakturaspesifikasjon')
+    y += units.cm*1
+    p.setFont(font, 10)
     fmt = '{0:.2f}'
 
     # Get our invoice entries, headers, etc
@@ -129,24 +133,34 @@ def pdf(request, guid):
             )
     t.setStyle(style)
     w, h = t.wrapOn(p, units.cm*19, units.cm*8)
-    t.drawOn(p, x, height-(units.cm*9)-h)
+    y += h
+    t.drawOn(p, x, height-y)
+    y += units.cm*2.5
 
     # Bank account number
-    y = height-(units.cm*11)-h
-    pr = u'Beløpet betales til konto: ' + company['bank_account_number'] + '.'
-    p.drawString(x, y, pr)
+    stylesheet = getSampleStyleSheet()
+    #pr = u'Beløpet betales til konto: ' + company['bank_account_number'] + '.'
+    #p.drawString(x, y, pr)
+    if invoice.notes:
+        txt = invoice.notes + '<br/><br/>'
+    else:
+        txt = ''
+    txt += u'Beløpet betales til konto: <b>' + company['bank_account_number'] + '</b>.'
+    pr = Paragraph(txt, stylesheet['BodyText'])
+    w, h = pr.wrapOn(p, units.cm*19, units.cm*6)
+    pr.drawOn(p, x, height-y)
 
     # Footer stuff
-    p.setFont(font + '-BoldOblique', 10)
-    p.drawString(x, units.cm*3, company['name'])
-    p.setFont(font + '-Oblique', 10)
-    p.drawString(x, units.cm*2.5, address[0])
+    p.setFont(font + '-BoldOblique', 8)
+    p.drawString(x, units.cm*2.8, company['name'])
+    p.setFont(font + '-Oblique', 8)
+    p.drawString(x, units.cm*2.4, address[0])
     p.drawString(x, units.cm*2, address[1])
 
-    p.drawString(units.cm*8, units.cm*2.5, 'Web: ' + company['url'])
+    p.drawString(units.cm*8, units.cm*2.4, 'Web: ' + company['url'])
     p.drawString(units.cm*8, units.cm*2, 'E-post: ' + company['email'])
 
-    p.drawString(units.cm*14, units.cm*2.5, 'Telefon: ' + company['phone'])
+    p.drawString(units.cm*14, units.cm*2.4, 'Telefon: ' + company['phone'])
     p.drawString(units.cm*14, units.cm*2, 'Org.nr: ' + company['id'])
 
     # Close the PDF object cleanly, and we're done.

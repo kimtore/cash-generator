@@ -1,5 +1,6 @@
 *.pyc
 .*.sw*
+*.mo
 local_settings.py
 requirements
 deps
