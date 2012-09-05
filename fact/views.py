@@ -52,7 +52,7 @@ def pdf(request, guid):
     p.setFont(font + '-Bold', 18)
     p.drawString(x, height-(units.cm*4.5), 'Faktura ' + invoice.id)
     p.setFont(font, 10)
-    p.drawString(x, height-(units.cm*5.5), 'Fakturadato: ' + invoice.date_posted.strftime('%d.%m.%Y'))
+    p.drawString(x, height-(units.cm*5.5), 'Fakturadato: ' + invoice.date_invoice.strftime('%d.%m.%Y'))
     p.drawString(x, height-(units.cm*6), 'Betalingsfrist: ' + invoice.date_due.strftime('%d.%m.%Y'))
 
     # Logo

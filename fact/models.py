@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q
+from dateutil import tz
 from dateutil.relativedelta import relativedelta
 
 # Create your models here.
@@ -237,9 +238,14 @@ class Invoice(models.Model):
         return None
 
     @property
+    def date_invoice(self):
+        date = self.date_posted.replace(tzinfo=tz.gettz('UTC'))
+        return date.astimezone(tz.tzlocal())
+
+    @property
     def date_due(self):
         days = Term.objects.get(pk=self.terms).duedays
-        return self.date_posted + relativedelta(days=+days)
+        return self.date_invoice + relativedelta(days=+days)
 
     @property
     def transactions(self):

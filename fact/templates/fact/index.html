@@ -21,7 +21,7 @@
                 <td>{{ invoice.due|floatformat:2|intcomma }}</td>
                 <td>{{ invoice.gross|floatformat:2|intcomma }}</td>
                 <td>{{ invoice.net|floatformat:2|intcomma }}</td>
-                <td>{{ invoice.date_posted|date:"d.m.Y" }}</td>
+                <td>{{ invoice.date_invoice|date:"d.m.Y" }}</td>
                 <td>{{ invoice.date_due|date:"d.m.Y" }}</td>
                 <td>{% if invoice.date_posted %}<a href="/faktura/pdf/{{ invoice.guid }}">PDF</a>{% endif %}</td>
             </tr>
