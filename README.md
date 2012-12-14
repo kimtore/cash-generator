@@ -15,8 +15,10 @@ Requirements
 * A web server capable of running Django applications (e.g. nginx + uWSGI, or
   Apache2 + mod_wsgi)
 
-    apt-get install python-pip python-dev python-imaging python-psycopg2
-    pip install mezzanine
+<code>
+apt-get install python-pip python-dev python-imaging python-psycopg2
+pip install mezzanine
+</code>
 
 
 Quick installation
