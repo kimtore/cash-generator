@@ -16,7 +16,7 @@ Requirements
   Apache2 + mod_wsgi)
 
 <code>
-apt-get install python-pip python-dev python-imaging python-psycopg2
+apt-get install python-pip python-dev python-imaging python-psycopg2<br />
 pip install mezzanine
 </code>
 
