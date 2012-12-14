@@ -1,0 +1,31 @@
+ADMINS = (
+    # Define your administrators here.
+)
+MANAGERS = ADMINS
+
+DATABASES = {
+    # Specify the database where you store your Django stuff.
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "invoice",
+        "USER": "invoice",
+        "PASSWORD": "secret",
+        "HOST": "",
+        "PORT": "",
+    },
+
+    # Here is your GNUCash database. Don't worry, all operations are read only.
+    "gnucash": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "my_account",
+        "USER": "accountant",
+        "PASSWORD": "secret",
+        "HOST": "",
+        "PORT": "",
+    },
+
+}
+
+# Set the path to your invoice header image.
+import os
+FACT_LOGO = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'theme', 'static', 'img', 'header.png')

@@ -1,84 +1,27 @@
-#####################
-# MEZZANINE SETTINGS #
-######################
-
-# The following settings are already defined in mezzanine.conf.defaults
-# with default values, but are common enough to be put here, commented
-# out, for convenient overriding.
-
-# Controls the ordering and grouping of the admin menu.
+# -*- coding: utf-8 -*-
 #
-# ADMIN_MENU_ORDER = (
-#     ("Content", ("pages.Page", "blog.BlogPost",
-#        "generic.ThreadedComment", ("Media Library", "fb_browse"),)),
-#     ("Site", ("sites.Site", "redirects.Redirect", "conf.Setting")),
-#     ("Users", ("auth.User", "auth.Group",)),
-# )
-
-# A three item sequence, each containing a sequence of template tags
-# used to render the admin dashboard.
+# Copyright (c) 2012, Kim Tore Jensen. All rights reserved.
 #
-# DASHBOARD_TAGS = (
-#     ("blog_tags.quick_blog", "mezzanine_tags.app_list"),
-#     ("comment_tags.recent_comments",),
-#     ("mezzanine_tags.recent_actions",),
-# )
-
-# A sequence of fields that will be injected into Mezzanine's (or any
-# library's) models. Each item in the sequence is a four item sequence.
-# The first two items are the dotted path to the model and its field
-# name to be added, and the dotted path to the field class to use for
-# the field. The third and fourth items are a sequence of positional
-# args and a dictionary of keyword args, to use when creating the
-# field instance. When specifying the field class, the path
-# ``django.models.db.`` can be omitted for regular Django model fields.
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
 #
-# EXTRA_MODEL_FIELDS = (
-#     (
-#         # Dotted path to field.
-#         "mezzanine.blog.models.BlogPost.image",
-#         # Dotted path to field class.
-#         "somelib.fields.ImageField",
-#         # Positional args for field class.
-#         ("Image",),
-#         # Keyword args for field class.
-#         {"blank": True, "upload_to": "blog"},
-#     ),
-#     # Example of adding a field to *all* of Mezzanine's content types:
-#     (
-#         "mezzanine.pages.models.Page.another_field",
-#         "IntegerField", # 'django.db.models.' is implied if path is omitted.
-#         ("Another name",),
-#         {"blank": True, "default": 1},
-#     ),
-# )
-
-# Setting to turn on featured images for blog posts. Defaults to False.
+# 1) Redistributions of source code must retain the above copyright notice, this
+# list of conditions and the following disclaimer.
 #
-# BLOG_USE_FEATURED_IMAGE = True
-
-# If ``True``, users will be automatically redirected to HTTPS
-# for the URLs specified by the ``SSL_FORCE_URL_PREFIXES`` setting.
+# 2) Redistributions in binary form must reproduce the above copyright notice,
+# this list of conditions and the following disclaimer in the documentation
+# and/or other materials provided with the distribution.
 #
-# SSL_ENABLED = True
-
-# Host name that the site should always be accessed via that matches
-# the SSL certificate.
-#
-# SSL_FORCE_HOST = "www.example.com"
-
-# Sequence of URL prefixes that will be forced to run over
-# SSL when ``SSL_ENABLED`` is ``True``. i.e.
-# ('/admin', '/example') would force all URLs beginning with
-# /admin or /example to run over SSL. Defaults to:
-#
-# SSL_FORCE_URL_PREFIXES = ("/admin", "/account")
-
-# If True, the south application will be automatically added to the
-# INSTALLED_APPS setting. This setting is not defined in
-# mezzanine.conf.defaults as is the case with the above settings.
-USE_SOUTH = True
-
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ########################
 # MAIN DJANGO SETTINGS #
@@ -88,9 +31,11 @@ USE_SOUTH = True
 # In the format (('Full Name', 'email@example.com'),
 #                ('Full Name', 'anotheremail@example.com'))
 ADMINS = (
-    ('Kim Tore Jensen', 'kim@incendio.no'),
+    #('Foo', 'bar@baz.org'),
 )
 MANAGERS = ADMINS
+
+USE_SOUTH = True
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -106,7 +51,7 @@ USE_TZ = True
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = "no"
+LANGUAGE_CODE = "nb"
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
 # are displayed for error pages. Should always be set to ``False`` in
@@ -198,6 +143,9 @@ ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 # Always use forward slashes, even on Windows.
 # Don't forget to use absolute paths, not relative paths.
 TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
+
+# Database router for GNUCash.
+DATABASE_ROUTERS = ['fact.routers.FactRouter']
 
 
 ################
