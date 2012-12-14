@@ -1,4 +1,4 @@
-######################
+#####################
 # MEZZANINE SETTINGS #
 ######################
 
@@ -152,9 +152,11 @@ STATICFILES_FINDERS = (
 #########
 
 import os
+import sys
 
 # Full filesystem path to the project.
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(PROJECT_ROOT)
 
 # Name of the directory for the project.
 PROJECT_DIRNAME = PROJECT_ROOT.split(os.sep)[-1]
