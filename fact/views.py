@@ -29,8 +29,38 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
+from django.contrib import messages
+
+import django.contrib.auth
 import django.contrib.auth.models
 import fact.models
+import fact.forms
+
+def login(request):
+    if request.method == 'POST':
+        loginform = fact.forms.LoginForm(request.POST)
+        if loginform.is_valid():
+            user = django.contrib.auth.authenticate(username=loginform.cleaned_data['username'], password=loginform.cleaned_data['password'])
+            if user is not None:
+                if user.is_active:
+                    django.contrib.auth.login(request, user)
+                    return redirect(reverse('home'))
+                else:
+                    messages.add_message(request, messages.ERROR, 'Din konto er deaktivert.')
+            else:
+                messages.add_message(request, messages.ERROR, 'Feil brukernavn eller passord.')
+
+    else:
+        loginform = fact.forms.LoginForm()
+
+    return render_to_response('fact/login.html', {
+            'title' : 'Logg inn',
+            'loginform' : loginform
+        }, context_instance=RequestContext(request))
+
+def logout(request):
+    django.contrib.auth.logout(request)
+    return redirect(reverse('home'))
 
 @login_required
 def index(request):

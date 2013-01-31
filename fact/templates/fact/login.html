@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <form action="{% url fact.views.login %}" method="post">
+        {% csrf_token %}
+        {{ loginform.username }}
+        {{ loginform.password }}
+        <button type="submit">Logg inn</button>
+    </form>
+{% endblock %}

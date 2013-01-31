@@ -37,6 +37,8 @@ MANAGERS = ADMINS
 
 USE_SOUTH = True
 
+LOGIN_URL = '/login/'
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -51,7 +53,7 @@ USE_TZ = True
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = "nb"
+LANGUAGE_CODE = "no"
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
 # are displayed for error pages. Should always be set to ``False`` in
@@ -164,6 +166,7 @@ INSTALLED_APPS = (
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    "django.contrib.messages",
     "mezzanine.boot",
     "mezzanine.conf",
     "mezzanine.core",
@@ -173,8 +176,7 @@ INSTALLED_APPS = (
     "mezzanine.pages",
     "mezzanine.galleries",
     "mezzanine.twitter",
-    "mezzanine.accounts",
-    #"mezzanine.mobile",
+    "compressor",
 )
 
 # List of processors used by RequestContext to populate the context.

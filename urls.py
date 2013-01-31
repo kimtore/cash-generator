@@ -13,8 +13,9 @@ admin.autodiscover()
 
 urlpatterns = patterns("",
     ("^admin/", include(admin.site.urls)),
-    ("^$", 'fact.views.index'),
-    ("^$", 'home'),
+    url("^$", 'fact.views.index', name='home'),
+    ("^login/$", 'fact.views.login'),
+    ("^logout/$", 'fact.views.logout'),
     ("^faktura/?$", 'fact.views.index'),
     ("^faktura/(?P<guid>\w{32})/?$", 'fact.views.detailed'),
     ("^faktura/pdf/(?P<guid>\w{32})/?$", 'fact.views.pdf'),
