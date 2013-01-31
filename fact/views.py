@@ -49,6 +49,8 @@ def login(request):
                     messages.add_message(request, messages.ERROR, 'Din konto er deaktivert.')
             else:
                 messages.add_message(request, messages.ERROR, 'Feil brukernavn eller passord.')
+        else:
+            messages.add_message(request, messages.ERROR, 'Vennligst fyll ut feltene for brukernavn og passord.')
 
     else:
         loginform = fact.forms.LoginForm()

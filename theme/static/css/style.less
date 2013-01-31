@@ -2,109 +2,194 @@
  * Incendio facture
  */
 
+@yellow: #fffcdf;
+@red: #EF4B23;
+@orange: #F89A1D;
+
+@dark-yellow: darken(@yellow, 5%);
+@light-red: #fff2df;
+
 body {
     background: white;
-    font: 0.9em Helvetica,sans-serif;
+    font: normal 1em "Source Sans Pro",sans-serif;
 }
 
 a {
     color: #EF4B23;
     text-decoration: none;
     font-weight: bold;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &.button {
+        display: block;
+        float: left;
+        border-radius: 1em;
+        border: 1px solid #F8E4C9;
+        background: #FFF6E9;
+        padding: 0.7em 1.4em;
+
+        &:hover {
+            border-color: #EF4B23;
+            background: #F8E4C9;
+            text-decoration: none;
+        }
+    }
+
 }
 
-a:hover {
-    text-decoration: underline;
+h1 {
+    font-size: 2em;
+    font-weight: 300;
+    margin: 1.5em 0 0.5em;
 }
 
-a.button {
-    display: block;
-    float: left;
-    border-radius: 1em;
-    border: 1px solid #F8E4C9;
-    background: #FFF6E9;
-    padding: 0.7em 1.4em;
+#container {
+    width: 75%;
+    margin: 0 auto;
 }
 
-a.button:hover {
-    border-color: #EF4B23;
-    background: #F8E4C9;
-    text-decoration: none;
+header {
+    padding: 1em 2em;
+    background: @yellow;
+
+    img {
+        display: block;
+        margin: 0 0 0.5em;
+        max-height: 80px;
+    }
+
+    h1 {
+        margin: 0;
+    }
+
+    #userbox {
+        float: right;
+        text-align: right;
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                float: right;
+                margin: 0 0 0 1em;
+                padding: 0;
+            }
+        }
+    }
+}
+
+#loginpage {
+    margin: 10em auto 0;
+    width: 400px;
+    padding: 3em 2em;
+    background: @yellow;
+
+    img {
+        display: block;
+        margin: 0 auto 0.5em;
+        max-height: 80px;
+        max-width: 400px;
+    }
+
+    h1 {
+        text-align: center;
+        margin: 0 0 1em;
+    }
+
+    input {
+        font: inherit;
+        border: 1px solid @orange;
+        padding: 0.2em 7px 0.1em;
+        width: 180px;
+
+        &[type=password] {
+            margin-left: 4px;
+        }
+    }
+
+    button {
+        display: block;
+        width: 150px;
+        height: 3em;
+        margin: 1em auto 0;
+    }
+
+    .messages {
+        margin: 1em 0;
+        text-align: center;
+
+        .error {
+            color: @red;
+            font-weight: 600;
+        }
+    }
 }
 
 div.buttons {
     margin: 2em 0;
 }
 
-header {
-    padding: 2em 3em;
-    background: #F8E4C9;
-    height: 90px;
-}
-
-header img {
-    float: left;
-}
-
-header h1 {
-    float: left;
-    margin: 66px 0 0 200px;
-}
-
 #main {
-    padding: 2em 3em;
+    padding: 0 2em 3em;
 }
 
 table {
-    min-width: 60em;
-}
+    width: 100%;
 
-table td, table th {
-    padding: 0.4em 2em 0.4em 0.8em;
-}
+    td, th {
+        padding: 0.4em 2em 0.4em 0.8em;
+    }
 
-table th {
-    border-bottom: 2px solid #EF4B23;
-    background: #FFF6E9;
-    text-align: left;
-}
+    th {
+        border-bottom: 2px solid @red;
+        background: transparent;
+        text-align: left;
+    }
 
-table tr.even td {
-    background: #FFF6E9;
-}
+    tr.even td {
+        background: @dark-yellow;
+    }
 
-table tr.odd td {
-    background: #F8E4C9;
-}
+    tr.odd td {
+        background: transparent;
+    }
 
-table tr.sum td, table tr.subtotal td {
-    background: #E8E8E8;
-    border-top: 1px solid black;
-}
+    tr.sum td, tr.subtotal td {
+        border-top: 1px solid black;
+    }
 
-table tr.subtotal td {
-    border-bottom: 2px solid black;
-}
+    tr.tax td {
+        border-top: 1px solid black;
+    }
 
-table tr.total td {
-    font-weight: bold;
-    background: white;
-    border-top: 1px solid black;
-    border-bottom: 3px double black;
-}
+    tr.subtotal td {
+        border-bottom: 2px solid black;
+    }
 
-table tr.payment td {
-    background: #FFF6E9;
-}
+    tr.total td {
+        font-weight: bold;
+        background: @light-red;
+        border-top: 1px solid black;
+        border-bottom: 3px double black;
+    }
 
-table tr.paid td {
-    text-decoration: line-through;
+    tr.payment td {
+        background: @light-red;
+    }
+
+    tr.paid td {
+        text-decoration: line-through;
+    }
 }
 
 .customer {
-    width: 30em;
     padding: 1em;
-    background: #E8E8E8;
+    background: @light-red;
 }
 
 .customer .name {

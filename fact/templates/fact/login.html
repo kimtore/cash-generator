@@ -1,10 +1,33 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
-{% block main %}
-    <form action="{% url fact.views.login %}" method="post">
-        {% csrf_token %}
-        {{ loginform.username }}
-        {{ loginform.password }}
-        <button type="submit">Logg inn</button>
-    </form>
+{% block body %}
+
+    <div id="loginpage">
+
+        <a href="/"><img src="{% static "img/header.png" %}" alt="" /></a>
+        <h1>{{ settings.SITE_TITLE }}</h1>
+
+        <form action="{% url fact.views.login %}" method="post">
+            {% csrf_token %}
+            {{ loginform.username }}
+            {{ loginform.password }}
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <button type="submit">Logg inn</button>
+        </form>
+
+        <script>
+            document.getElementById('id_username').focus();
+        </script>
+
+    </div>
+
 {% endblock %}
