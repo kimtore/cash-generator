@@ -69,6 +69,7 @@ class Split(models.Model):
     guid = models.CharField(primary_key=True, max_length=32)
     tx_guid = models.CharField(max_length=32)
     lot_guid = models.CharField(max_length=32)
+    action = models.CharField(max_length=2048)
     value_num = models.IntegerField()
     value_denom = models.IntegerField()
 
@@ -83,6 +84,9 @@ class Split(models.Model):
     @property
     def post_date(self):
         return self.transaction.post_date
+
+    def __unicode__(self):
+        return str(self.post_date) + ': ' + self.action + ' ' + str(self.amount)
 
     class Meta:
         managed = False
@@ -123,6 +127,19 @@ class Customer(models.Model):
     addr_addr2 = models.CharField(max_length=2048)
     addr_addr3 = models.CharField(max_length=2048)
     addr_addr4 = models.CharField(max_length=2048)
+
+    @property
+    def invoices(self):
+        jobs = [x.guid for x in self.jobs]
+        jobs.append(self.guid)
+        return Invoice.objects.filter(owner_guid__in=jobs)
+
+    @property
+    def jobs(self):
+        return Job.objects.filter(owner_guid=self.guid)
+
+    def __unicode__(self):
+        return self.name
 
     class Meta:
         managed = False
@@ -221,10 +238,6 @@ class Invoice(models.Model):
         return Invoice.objects.filter(Q(owner_type=3) | Q(owner_type=2)).order_by('-id')
 
     @property
-    def transactions(self):
-        return Split.objects.filter(guid=self.guid)
-    
-    @property
     def entries(self):
         return Entry.objects.filter(invoice=self.guid)
 
@@ -276,7 +289,13 @@ class Invoice(models.Model):
     def transactions(self):
         if self.post_lot is None:
             return Split.objects.none()
-        return Split.objects.filter(lot_guid=self.post_lot)
+        return Split.objects.filter(action='Invoice', lot_guid=self.post_lot)
+
+    @property
+    def all_transactions(self):
+        if self.post_lot is None:
+            return Split.objects.none()
+        return Split.objects.filter(~Q(action='Auto Split'), lot_guid=self.post_lot)
 
     @property
     def payments(self):
@@ -287,6 +306,9 @@ class Invoice(models.Model):
         if self.date_posted is not None and self.due == 0:
             return sum(self.transactions) == 0
         return False
+
+    def __unicode__(self):
+        return 'Invoice ' + self.id
     
     class Meta:
         managed = False

@@ -73,6 +73,14 @@ def index(request):
         }, context_instance=RequestContext(request))
 
 @login_required
+def customers(request):
+    customers = fact.models.Customer.objects.all().order_by('name')
+    return render_to_response('fact/customers.html', {
+            'title' : 'Kunder',
+            'customers' : customers
+        }, context_instance=RequestContext(request))
+
+@login_required
 def detailed(request, guid):
     invoice = get_object_or_404(fact.models.Invoice, pk=guid)
     return render_to_response('fact/detailed.html', {

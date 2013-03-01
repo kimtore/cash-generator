@@ -12,6 +12,7 @@ admin.autodiscover()
 urlpatterns = patterns("",
     ("^admin/", include(admin.site.urls)),
     url("^$", 'fact.views.index', name='home'),
+    ("^kunder/?$", 'fact.views.customers'),
     ("^login/$", 'fact.views.login'),
     ("^logout/$", 'fact.views.logout'),
     ("^faktura/?$", 'fact.views.index'),
