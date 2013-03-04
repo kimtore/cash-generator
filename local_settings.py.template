@@ -3,6 +3,11 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
+# Switch on I18N to use your local language.
+USE_I18N = True
+
+LANGUAGE_CODE = 'en'
+
 DATABASES = {
     # Specify the database where you store your Django stuff.
     "default": {

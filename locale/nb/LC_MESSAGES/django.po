@@ -1,0 +1,154 @@
+# cash-generator
+# Copyright (C) Kim Tore Jensen
+# This file is distributed under the same license as the cash-generator package.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: cash-generator\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-04 22:35+0100\n"
+"Last-Translator: Kim Tore Jensen <kim@incendio.no>\n"
+"Language: nb\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: fact/views.py:49
+msgid "Your account is not activated."
+msgstr "Din konto er ikke aktivert."
+
+#: fact/views.py:51
+msgid "Wrong user name or password."
+msgstr "Feil brukernavn eller passord."
+
+#: fact/views.py:53
+msgid "Please provide a user name and password."
+msgstr "Vennligst oppgi brukernavn og passord."
+
+#: fact/views.py:59 fact/templates/fact/login.html:24
+msgid "Log in"
+msgstr "Logg inn"
+
+#: fact/views.py:71
+msgid "Invoices"
+msgstr "Fakturaer"
+
+#: fact/views.py:79
+msgid "Customers"
+msgstr "Kunder"
+
+#: fact/views.py:87 fact/views.py:117
+#, python-format
+msgid "Invoice %s"
+msgstr "Faktura %s"
+
+#: fact/views.py:109
+msgid "invoice"
+msgstr "faktura"
+
+#: fact/views.py:119
+#, python-format
+msgid "Invoice date: %s"
+msgstr "Fakturadato: %s"
+
+#: fact/views.py:120
+#, python-format
+msgid "Due date: %s"
+msgstr "Forfallsdato: %s"
+
+#: fact/views.py:162 fact/templates/fact/detailed.html:27
+msgid "Description"
+msgstr "Beskrivelse"
+
+#: fact/views.py:162 fact/templates/fact/detailed.html:28
+msgid "Amount"
+msgstr "Antall"
+
+#: fact/views.py:162 fact/templates/fact/detailed.html:29
+msgid "Type"
+msgstr "Type"
+
+#: fact/views.py:162 fact/templates/fact/detailed.html:30
+msgid "Unit price"
+msgstr "Stykkpris"
+
+#: fact/views.py:162 fact/views.py:177 fact/templates/fact/detailed.html:31
+#: fact/templates/fact/detailed.html:49
+msgid "VAT"
+msgstr "MVA"
+
+#: fact/views.py:162 fact/views.py:176 fact/templates/fact/detailed.html:32
+#: fact/templates/fact/detailed.html:45 fact/templates/fact/index.html:11
+msgid "Net"
+msgstr "Netto"
+
+#: fact/views.py:179 fact/templates/fact/detailed.html:55
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#: fact/views.py:182
+#, python-format
+msgid "Paid %s"
+msgstr "Betalt %s"
+
+#: fact/views.py:187 fact/templates/fact/detailed.html:67
+msgid "Amount due"
+msgstr "Å betale"
+
+#: fact/views.py:211
+msgid "Amount payable to bank account: <b>"
+msgstr "Beløpet betales til bankkonto: <b>"
+
+#: fact/templates/fact/detailed.html:6 fact/templates/fact/index.html:9
+msgid "Customer"
+msgstr "Kunde"
+
+#: fact/templates/fact/detailed.html:16
+msgid "Project"
+msgstr "Prosjekt"
+
+#: fact/templates/fact/detailed.html:23
+msgid "Order lines"
+msgstr "Ordrelinjer"
+
+#: fact/templates/fact/detailed.html:60
+msgid "Paid"
+msgstr "Betalt"
+
+#: fact/templates/fact/detailed.html:73
+msgid "Download PDF"
+msgstr "Last ned PDF"
+
+#: fact/templates/fact/index.html:8
+msgid "Invoice #"
+msgstr "Faktura #"
+
+#: fact/templates/fact/index.html:10
+msgid "Gross"
+msgstr "Brutto"
+
+#: fact/templates/fact/index.html:12
+msgid "Invoice date"
+msgstr "Fakturadato"
+
+#: fact/templates/fact/index.html:13
+msgid "Due date"
+msgstr "Forfallsdato"
+
+#: theme/templates/base.html:29
+msgid "Welcome"
+msgstr "Velkommen"
+
+#: theme/templates/base.html:31
+msgid "Log out"
+msgstr "Logg ut"
+
+#: theme/templates/base.html:32
+msgid "Admin"
+msgstr "Administrasjon"
+
+#: theme/templates/base.html:33
+msgid "Invoice"
+msgstr "Faktura"

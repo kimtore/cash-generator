@@ -1,24 +1,22 @@
 {% extends "base.html" %}
 
-{% load humanize %}
+{% load i18n humanize %}
 
 {% block main %}
     <table>
         <tr>
-            <th>Faktura #</th>
-            <th>Kunde</th>
-            <th>Utestående</th>
-            <th>Brutto</th>
-            <th>Netto</th>
-            <th>Fakturadato</th>
-            <th>Forfallsdato</th>
+            <th>{% trans "Invoice #" %}</th>
+            <th>{% trans "Customer" %}</th>
+            <th>{% trans "Gross" %}</th>
+            <th>{% trans "Net" %}</th>
+            <th>{% trans "Invoice date" %}</th>
+            <th>{% trans "Due date" %}</th>
             <th></th>
         </tr>
         {% for invoice in invoices %}
             <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} {% if invoice.paid %}paid{% endif %}">
                 <td><a href="/faktura/{{ invoice.guid }}">{{ invoice.id }}</a></td>
                 <td>{{ invoice.customer.name }}</td>
-                <td>{{ invoice.due|floatformat:2|intcomma }}</td>
                 <td>{{ invoice.gross|floatformat:2|intcomma }}</td>
                 <td>{{ invoice.net|floatformat:2|intcomma }}</td>
                 <td>{{ invoice.date_invoice|date:"d.m.Y" }}</td>

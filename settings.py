@@ -53,7 +53,7 @@ USE_TZ = True
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = "no"
+LANGUAGE_CODE = "en"
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
 # are displayed for error pages. Should always be set to ``False`` in
@@ -107,6 +107,9 @@ sys.path.append(PROJECT_ROOT)
 
 # Name of the directory for the project.
 PROJECT_DIRNAME = PROJECT_ROOT.split(os.sep)[-1]
+
+# Locales are kept in project root.
+LOCALE_PATHS = ( os.path.join(PROJECT_ROOT, 'locale'), )
 
 # Every cache key will get prefixed with this value - here we set it to
 # the name of the directory the project is in to try and use something

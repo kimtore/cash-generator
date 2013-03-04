@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% load humanize %}
+{% load i18n humanize %}
 
 {% block main %}
-    <h2>Kunde</h2>
+    <h2>{% trans "Customer" %}</h2>
     <div class="customer">
         <div class="name">{{ customer.name }}</div>
         <div>{{ customer.addr_addr1 }}</div>
@@ -12,24 +12,24 @@
         <div>{{ customer.addr_addr4 }}</div>
     </div>
 
-    <h2>Ordrelinjer</h2>
-
     {% if job %}
-        <h3>Prosjekt: {{ job.name }}</h3>
+        <h2>{% trans "Project" %}: {{ job.name }}</h2>
     {% endif %}
 
     <div class="notes">
         {{ invoice.notes }}
     </div>
 
+    <h2>{% trans "Order lines" %}</h2>
+
     <table>
         <tr>
-            <th>Beskrivelse</th>
-            <th>Antall</th>
-            <th>Type</th>
-            <th>Stykkpris</th>
-            <th>MVA</th>
-            <th>Netto</th>
+            <th>{% trans "Description" %}</th>
+            <th>{% trans "Amount" %}</th>
+            <th>{% trans "Type" %}</th>
+            <th>{% trans "Unit price" %}</th>
+            <th>{% trans "VAT" %}</th>
+            <th>{% trans "Net" %}</th>
         </tr>
         {% for line in invoice.entries %}
             <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
@@ -42,35 +42,35 @@
             </tr>
         {% endfor %}
         <tr class="sum">
-            <td colspan="5">Netto</td>
+            <td colspan="5">{% trans "Net" %}</td>
             <td>{{ invoice.net|floatformat:2|intcomma }}</td>
         </tr>
         <tr class="tax">
-            <td colspan="5">MVA</td>
+            <td colspan="5">{% trans "VAT" %}</td>
             <td>{{ invoice.tax|floatformat:2|intcomma }}</td>
         </tr>
 
         {% if invoice.payments.count %}
             <tr class="subtotal">
-                <td colspan="5">Subtotal</td>
+                <td colspan="5">{% trans "Subtotal" %}</td>
                 <td>{{ invoice.gross|floatformat:2|intcomma }}</td>
             </tr>
             {% for payment in invoice.payments %}
                 <tr class="payment">
-                    <td colspan="5">Betalt {{ payment.post_date|date:'d.m.Y' }}</td>
+                    <td colspan="5">{% trans "Paid" %} {{ payment.post_date|date:'d.m.Y' }}</td>
                     <td>{{ payment.amount|floatformat:2|intcomma }}</td>
                 </tr>
             {% endfor %}
         {% endif %}
 
         <tr class="total">
-            <td colspan="5">Å betale</td>
+            <td colspan="5">{% trans "Amount due" %}</td>
             <td>{{ invoice.due|floatformat:2|intcomma }}</td>
         </tr>
     </table>
 
     <div class="buttons">
-        <a class="button" href="/faktura/pdf/{{ invoice.guid }}">Last ned PDF</a>
+        <a class="button" href="/faktura/pdf/{{ invoice.guid }}">{% trans "Download PDF" %}</a>
     </div>
 
 {% endblock %}

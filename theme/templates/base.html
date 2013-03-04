@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load compress staticfiles %}
+{% load i18n compress staticfiles %}
 
 <html>
     <head>
@@ -9,7 +9,7 @@
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width" />
         <meta name="robots" content="noindex, nofollow" />
-        <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet" type="text/css" />
         {% compress css %}
             <link rel="stylesheet" href="{% static "css/normalize.css" %}" />
             <link rel="stylesheet" type="text/less" href="{% static "css/style.less" %}" />
@@ -26,11 +26,11 @@
 
                     {% if request.user.is_authenticated %}
                         <div id="userbox">
-                            <p>Velkommen, {{ request.user.first_name }}</p>
+                            <p>{% trans "Welcome" %}, {{ request.user.first_name }}</p>
                             <ul>
-                                <li><a href="{% url fact.views.logout %}">Logg ut</a></li>
-                                <li><a href="{% url admin:index %}">Administrasjon</a></li>
-                                <li><a href="{% url fact.views.index %}">Faktura</a></li>
+                                <li><a href="{% url fact.views.logout %}">{% trans "Log out" %}</a></li>
+                                <li><a href="{% url admin:index %}">{% trans "Admin" %}</a></li>
+                                <li><a href="{% url fact.views.index %}">{% trans "Invoice" %}</a></li>
                             </ul>
                         </div>
                     {% endif %}

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load staticfiles %}
+{% load i18n staticfiles %}
 
 {% block body %}
 
@@ -21,7 +21,7 @@
                 </div>
             {% endif %}
 
-            <button type="submit">Logg inn</button>
+            <button type="submit">{% trans "Log in" %}</button>
         </form>
 
         <script>
