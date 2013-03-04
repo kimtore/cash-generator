@@ -206,6 +206,8 @@ class Entry(models.Model):
 
     @property
     def tax_percent(self):
+        if not self.i_taxable:
+            return 0
         return TaxtableEntry.objects.get(taxtable=self.i_taxtable).amount
 
     @property
