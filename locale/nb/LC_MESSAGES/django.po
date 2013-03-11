@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cash-generator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-04 22:35+0100\n"
+"POT-Creation-Date: 2013-03-11 12:09+0100\n"
 "Last-Translator: Kim Tore Jensen <kim@incendio.no>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -39,67 +39,75 @@ msgstr "Fakturaer"
 msgid "Customers"
 msgstr "Kunder"
 
-#: fact/views.py:87 fact/views.py:117
+#: fact/views.py:87 fact/views.py:138
 #, python-format
 msgid "Invoice %s"
 msgstr "Faktura %s"
 
-#: fact/views.py:109
+#: fact/views.py:104 theme/templates/base.html:32
+msgid "Admin"
+msgstr "Administrasjon"
+
+#: fact/views.py:124
 msgid "invoice"
 msgstr "faktura"
 
-#: fact/views.py:119
+#: fact/views.py:140
 #, python-format
 msgid "Invoice date: %s"
 msgstr "Fakturadato: %s"
 
-#: fact/views.py:120
+#: fact/views.py:141
 #, python-format
 msgid "Due date: %s"
 msgstr "Forfallsdato: %s"
 
-#: fact/views.py:162 fact/templates/fact/detailed.html:27
+#: fact/views.py:183 fact/templates/fact/detailed.html:27
 msgid "Description"
 msgstr "Beskrivelse"
 
-#: fact/views.py:162 fact/templates/fact/detailed.html:28
+#: fact/views.py:183 fact/templates/fact/detailed.html:28
 msgid "Amount"
 msgstr "Antall"
 
-#: fact/views.py:162 fact/templates/fact/detailed.html:29
+#: fact/views.py:183 fact/templates/fact/detailed.html:29
 msgid "Type"
 msgstr "Type"
 
-#: fact/views.py:162 fact/templates/fact/detailed.html:30
+#: fact/views.py:183 fact/templates/fact/detailed.html:30
 msgid "Unit price"
 msgstr "Stykkpris"
 
-#: fact/views.py:162 fact/views.py:177 fact/templates/fact/detailed.html:31
+#: fact/views.py:183 fact/views.py:198 fact/templates/fact/detailed.html:31
 #: fact/templates/fact/detailed.html:49
 msgid "VAT"
 msgstr "MVA"
 
-#: fact/views.py:162 fact/views.py:176 fact/templates/fact/detailed.html:32
+#: fact/views.py:183 fact/views.py:197 fact/templates/fact/detailed.html:32
 #: fact/templates/fact/detailed.html:45 fact/templates/fact/index.html:11
 msgid "Net"
 msgstr "Netto"
 
-#: fact/views.py:179 fact/templates/fact/detailed.html:55
+#: fact/views.py:200 fact/templates/fact/detailed.html:55
 msgid "Subtotal"
 msgstr "Subtotal"
 
-#: fact/views.py:182
+#: fact/views.py:203
 #, python-format
 msgid "Paid %s"
 msgstr "Betalt %s"
 
-#: fact/views.py:187 fact/templates/fact/detailed.html:67
+#: fact/views.py:208 fact/templates/fact/detailed.html:67
 msgid "Amount due"
 msgstr "Å betale"
 
-#: fact/views.py:211
-msgid "Amount payable to bank account: <b>"
-msgstr "Beløpet betales til bankkonto: <b>"
+#: fact/templates/fact/admin.html:8
+msgid "These options are only set for language code"
+msgstr "Disse innstillingene gjelder kun for språkkode"
+
+#: fact/templates/fact/admin.html:14
+msgid "Save changes"
+msgstr "Lagre innstillinger"
 
 #: fact/templates/fact/detailed.html:6 fact/templates/fact/index.html:9
 msgid "Customer"
@@ -145,10 +153,9 @@ msgstr "Velkommen"
 msgid "Log out"
 msgstr "Logg ut"
 
-#: theme/templates/base.html:32
-msgid "Admin"
-msgstr "Administrasjon"
-
 #: theme/templates/base.html:33
 msgid "Invoice"
 msgstr "Faktura"
+
+#~ msgid "Amount payable to bank account: <b>"
+#~ msgstr "Beløpet betales til bankkonto: <b>"

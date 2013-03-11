@@ -28,7 +28,53 @@ from django.db.models import Q
 from dateutil import tz
 from dateutil.relativedelta import relativedelta
 
-# Create your models here.
+
+class Option(models.Model):
+
+    key = models.CharField(max_length=255)
+    lang = models.CharField(max_length=5)
+    value = models.TextField(null=True)
+
+    @staticmethod
+    def _get(key, lang):
+        qs = Option.objects.filter(key=key, lang=lang)
+        if qs.count() == 0:
+            return None
+        return qs[0]
+
+    @staticmethod
+    def get(key, lang):
+        ob = Option._get(key, lang)
+        if ob is None:
+            return ob
+        return ob.value
+
+    @staticmethod
+    def set(key, lang, value):
+        ob = Option._get(key, lang)
+        if ob is None:
+            ob = Option(key=key, lang=lang)
+        ob.value = value
+        ob.save()
+
+    @staticmethod
+    def opt_list(lang):
+        values = Option.objects.filter(lang=lang).values_list('key', 'value')
+        initial = {}
+        for key, value in values:
+            initial[key] = value
+        return initial
+
+    class Meta:
+        unique_together = ('key', 'lang')
+
+
+
+
+##############################
+######  GNUCASH MODELS  ######
+##############################
+
 
 class Slot(models.Model):
 

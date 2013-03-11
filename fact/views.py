@@ -91,6 +91,21 @@ def detailed(request, guid):
         }, context_instance=RequestContext(request))
 
 @login_required
+def admin(request):
+    if request.method == 'POST':
+        form = fact.forms.OptionForm(request.POST)
+        if form.is_valid():
+            for key, val in form.cleaned_data.iteritems():
+                fact.models.Option.set(key, request.LANGUAGE_CODE, val)
+    else:
+        form = fact.forms.OptionForm(fact.models.Option.opt_list(request.LANGUAGE_CODE))
+
+    return render_to_response('fact/admin.html', {
+            'title' : _('Admin'),
+            'optionform' : form
+        }, context_instance=RequestContext(request))
+
+@login_required
 def pdf(request, guid):
     import settings
     import reportlab.pdfgen.canvas
@@ -110,6 +125,12 @@ def pdf(request, guid):
     p = reportlab.pdfgen.canvas.Canvas(response, pagesize=pagesizes.A4)
     width, height = pagesizes.A4
     font = 'Helvetica'
+
+    # Load options and payment text
+    options = fact.models.Option.opt_list(request.LANGUAGE_CODE)
+    for key, value in options.iteritems():
+        options['payment_text'] = options['payment_text'].replace('%' + key + '%', value)
+    options['payment_text'] = options['payment_text'].replace('\n', '<br/>')
 
     # Right-hand stuff
     x = units.cm * 14;
@@ -198,19 +219,17 @@ def pdf(request, guid):
     w, h = t.wrapOn(p, units.cm*19, units.cm*8)
     y += h
     t.drawOn(p, x, height-y)
-    y += units.cm*2.5
 
     # Bank account number
     stylesheet = getSampleStyleSheet()
-    #pr = u'Beløpet betales til konto: ' + company['bank_account_number'] + '.'
-    #p.drawString(x, y, pr)
     if invoice.notes:
         txt = invoice.notes + '<br/><br/>'
     else:
         txt = ''
-    txt += _('Amount payable to bank account: <b>') + company['bank_account_number'] + '</b>.'
+    txt += options['payment_text']
     pr = Paragraph(txt, stylesheet['BodyText'])
-    w, h = pr.wrapOn(p, units.cm*19, units.cm*6)
+    w, h = pr.wrapOn(p, units.cm*17, units.cm*6)
+    y += pr.height + (units.cm*1)
     pr.drawOn(p, x, height-y)
 
     # Footer stuff

@@ -29,7 +29,7 @@
                             <p>{% trans "Welcome" %}, {{ request.user.first_name }}</p>
                             <ul>
                                 <li><a href="{% url fact.views.logout %}">{% trans "Log out" %}</a></li>
-                                <li><a href="{% url admin:index %}">{% trans "Admin" %}</a></li>
+                                <li><a href="{% url fact.views.admin %}">{% trans "Admin" %}</a></li>
                                 <li><a href="{% url fact.views.index %}">{% trans "Invoice" %}</a></li>
                             </ul>
                         </div>
