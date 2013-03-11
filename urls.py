@@ -15,9 +15,9 @@ urlpatterns = patterns("",
     ("^kunder/?$", 'fact.views.customers'),
     ("^login/$", 'fact.views.login'),
     ("^logout/$", 'fact.views.logout'),
-    ("^faktura/?$", 'fact.views.index'),
-    ("^faktura/(?P<guid>\w{32})/?$", 'fact.views.detailed'),
-    ("^faktura/pdf/(?P<guid>\w{32})/?$", 'fact.views.pdf'),
+    ("^invoice/?$", 'fact.views.index'),
+    ("^invoice/(?P<guid>\w{32})/?$", 'fact.views.detailed'),
+    ("^invoice/pdf/(?P<guid>\w{32})/?$", 'fact.views.pdf'),
     ("^", include("mezzanine.urls")),
 )
 

@@ -15,13 +15,13 @@
         </tr>
         {% for invoice in invoices %}
             <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} {% if invoice.paid %}paid{% endif %}">
-                <td><a href="/faktura/{{ invoice.guid }}">{{ invoice.id }}</a></td>
+                <td><a href="{% url fact.views.detailed guid=invoice.guid %}">{{ invoice.id }}</a></td>
                 <td>{{ invoice.customer.name }}</td>
                 <td>{{ invoice.gross|floatformat:2|intcomma }}</td>
                 <td>{{ invoice.net|floatformat:2|intcomma }}</td>
                 <td>{{ invoice.date_invoice|date:"d.m.Y" }}</td>
                 <td>{{ invoice.date_due|date:"d.m.Y" }}</td>
-                <td>{% if invoice.date_posted %}<a href="/faktura/pdf/{{ invoice.guid }}">PDF</a>{% endif %}</td>
+                <td>{% if invoice.date_posted %}<a href="{% url fact.views.pdf guid=invoice.guid %}">PDF</a>{% endif %}</td>
             </tr>
         {% endfor %}
     </table>
