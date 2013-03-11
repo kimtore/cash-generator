@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load i18n humanize %}
+
+{% block main %}
+
+    <p>
+        <em>{% trans "These options are only set for language code" %}: <strong>{{ request.LANGUAGE_CODE }}</strong></em>
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ optionform.as_p }}
+        <button type="submit">{% trans "Save changes" %}</button>
+    </form>
+
+{% endblock %}
