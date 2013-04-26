@@ -163,7 +163,7 @@ def pdf(request, guid):
     base = 0.5
     customer = invoice.customer
     p.setFont(font, 10)
-    p.drawString(x, height-y, customer.name); y += units.cm*base
+    p.drawString(x, height-y, customer.addr_name); y += units.cm*base
     p.drawString(x, height-y, customer.addr_addr1); y += units.cm*base
     p.drawString(x, height-y, customer.addr_addr2); y += units.cm*base
     p.drawString(x, height-y, customer.addr_addr3); y += units.cm*base
