@@ -70,7 +70,7 @@
     </table>
 
     <div class="buttons">
-        <a class="button" href="{% url fact.views.pdf guid=invoice.guid %}">{% trans "Download PDF" %}</a>
+        <a class="button" href="{% url "fact.views.pdf" guid=invoice.guid %}">{% trans "Download PDF" %}</a>
     </div>
 
 {% endblock %}
