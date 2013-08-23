@@ -172,7 +172,7 @@ def pdf(request, guid):
 
     # Main
     p.setFont(font + '-Bold', 14)
-    p.drawString(x, height-y, 'Specification')
+    p.drawString(x, height-y, _('Specification'))
     y += units.cm*1
     p.setFont(font, 10)
     fmt = '{0:.2f}'
