@@ -171,6 +171,7 @@ INSTALLED_APPS = (
     "django.contrib.humanize",
     "django.contrib.messages",
     "compressor",
+    "south",
 )
 
 # List of processors used by RequestContext to populate the context.

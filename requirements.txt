@@ -1,7 +1,7 @@
 Django==1.6.5
 Pillow==2.4.0
-South==0.8.4
 argparse==1.2.1
+South==1.0.1
 django-appconf==0.6
 django-compressor==1.4
 psycopg2==2.5.3
